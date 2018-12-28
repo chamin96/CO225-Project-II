@@ -91,6 +91,7 @@ public class Client implements Runnable {
                         this.bid = line;
                         server.changePrice(this.symbolName, this.bid);
                         server.updateHistory("Client: "+this.username + " | Bid: " + line + " | Time: " + new Date().toString()+" | Symbol: "+this.symbolName);
+                        server.updateCol(this.symbolName,this.bid);
                         server.addAndDisplayHistory(this.username + " Bids: " + line + " on " + new Date().toString());
                         out.write(BID_POSTED);
                         out.flush();

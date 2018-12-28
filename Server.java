@@ -22,6 +22,13 @@ public class Server extends JFrame {
      */
     public static final String TITLE = "Auction Server";
     private JTextArea txtArea;
+    private JTable currentPrice;
+
+    public String[] colNames = {"Symbol","Security Name","Current Price"};
+
+    public String[] symbol = {"FB","VRTU","MSFT","GOOGL","YHOO","XLNX","TSLA","TXN"};
+
+    public String[][] data= new String[symbol.length][colNames.length];
 
 
     public Server(int socket, StockDB users) {
@@ -48,12 +55,6 @@ public class Server extends JFrame {
 
         panel.setLayout(new BorderLayout());
 
-        String[] colNames = {"Symbol","Security Name","Current Price"};
-
-        String[] symbol = {"FB","VRTU","MSFT","GOOGL","YHOO","XLNX","TSLA","TXN"};
-
-        String[][] data= new String[symbol.length][colNames.length];
-
 
 
         for (int i=0;i<symbol.length;i++){
@@ -62,7 +63,7 @@ public class Server extends JFrame {
             data[i][2]=stockDatabase.findSecurityPrice(symbol[i]);
         }
 
-        JTable currentPrice = new JTable(data, colNames){
+        currentPrice = new JTable(data, colNames){
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -93,6 +94,15 @@ public class Server extends JFrame {
         txtArea.append(msg+"\n");
     }
 
+
+    public void updateCol(String sym, String bid){
+        for (int i=0;i<symbol.length;i++ ) {
+            if (sym.equals(symbol[i])) {
+                currentPrice.setValueAt(bid,i,2);
+            }
+        }
+        
+    }
     /* each server will provide the following functions to
      * the public. Note that these are non-static
      */
